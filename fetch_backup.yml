@@ -1,0 +1,22 @@
+---
+- name: Download the latest Jenkins backup file from remote server
+  hosts: masters
+  tasks:
+    - name: Find the latest backup zip file
+      shell: ls -t /var/lib/jenkins/jenkins_backup/*.zip | head -1
+      register: latest_file
+      failed_when: "'No such file or directory' in latest_file.stderr"
+
+    - name: Set the remote file path
+      set_fact:
+        remote_file_path: "{{ latest_file.stdout.strip() }}"
+
+    - name: Download the latest backup file
+      ansible.builtin.fetch:
+        src: "{{ remote_file_path }}"
+        dest: "~/Downloads/"
+        flat: yes
+
+    - name: Print the status
+      debug:
+        msg: "File downloaded successfully: {{ '~/Downloads/' + latest_file.stdout.split('/')[-1] }}"
