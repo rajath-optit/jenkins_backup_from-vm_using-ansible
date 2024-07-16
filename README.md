@@ -10,7 +10,7 @@ ansible-playbook -i inventory.ini fetch_backup.yml
 
 
 
-from vm
+## From vm
 It looks like there are a few issues and misunderstandings with the commands and configurations. Let’s break down and resolve each one step-by-step.
 
 ### **1. Fix Ansible Inventory File**
